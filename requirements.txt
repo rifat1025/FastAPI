@@ -1,5 +1,10 @@
-Python 3.14.7
-fastapi 0.141.1
-uvicorn 0.52.4
-pydantic 2.13.5
-pydantic_core 2.46.5
+Set-Content -Path requirements.txt -Value @"
+fastapi==0.141.1
+uvicorn==0.52.4
+pydantic==2.13.5
+pydantic_core==2.46.5
+PyMySQL==1.2.0
+python-dotenv==1.2.3
+SQLAlchemy==2.0.52
+cryptography>=42.0.0
+"@
