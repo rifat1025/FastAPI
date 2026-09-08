@@ -1,8 +1,9 @@
-from fastapi import FastAPI,HTTPException
+from fastapi import FastAPI,HTTPException,Depends
+from sqlalchemy.orm import Session
 from database import engine
 from models import Base
 from validate import EmployeeCreate,EmployeeResponse
-from database import SessionLocal
+from database import SessionLocal,get_db
 from models import Employee
 
 app = FastAPI()
@@ -14,8 +15,8 @@ def home():
     return {"message": "MySQL Connected"}
 
 @app.post("/employees")
-def create_employees(employee:EmployeeCreate):
-    db = SessionLocal()
+def create_employees(employee:EmployeeCreate, db: Session = Depends(get_db)):
+    
 
     new_employee=Employee(
         name = employee.name,
@@ -31,10 +32,10 @@ def create_employees(employee:EmployeeCreate):
 
 # Get all employee's 
 @app.get("/employees")
-def get_employees():
+def get_employees(db: Session = Depends(get_db)):
 
     # database connection
-    db = SessionLocal()
+    
     #from tabnle get all employee 
     employees = db.query(Employee).all()
 
@@ -45,9 +46,9 @@ def get_employees():
 
 # Get employee  for sepcific user id
 @app.get("/employees/{employee_id}")
-def get_employee(employee_id: int):
+def get_employee(employee_id: int, db: Session = Depends(get_db)):
     # db connection
-    db = SessionLocal()
+    
 
     # employee query for find from table
     employee = (
@@ -69,8 +70,8 @@ def get_employee(employee_id: int):
 # update the employee information 
 
 @app.put("/employees/{employee_id}")
-def update_employee(employee_id:int, employee:EmployeeCreate):
-    db = SessionLocal()
+def update_employee(employee_id:int, employee:EmployeeCreate, db: Session = Depends(get_db)):
+    
 
     existing_employee = (db.query(Employee).filter(Employee.id == employee_id).first() )
 
@@ -96,9 +97,9 @@ def update_employee(employee_id:int, employee:EmployeeCreate):
 
 
 @app.delete("/employees/{employee_id}")
-def delete_employee(employee_id: int):
+def delete_employee(employee_id: int, db: Session = Depends(get_db)):
 
-    db = SessionLocal()
+    
 
     employee = (
         db.query(Employee)
