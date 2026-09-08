@@ -94,6 +94,34 @@ def update_employee(employee_id:int, employee:EmployeeCreate):
         "employee": existing_employee
     }
 
+
+@app.delete("/employees/{employee_id}")
+def delete_employee(employee_id: int):
+
+    db = SessionLocal()
+
+    employee = (
+        db.query(Employee)
+        .filter(Employee.id == employee_id)
+        .first()
+    )
+
+    if not employee:
+        db.close()
+        raise HTTPException(
+            status_code=404,
+            detail="Employee not found"
+        )
+
+    db.delete(employee)
+    db.commit()
+
+    db.close()
+
+    return {
+        "message": "Employee deleted successfully"
+    }
+
       
     
     
