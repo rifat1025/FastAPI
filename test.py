@@ -1,5 +1,5 @@
 from fastapi import FastAPI,HTTPException
-from validate import Employee
+from practice.validate import Employee
 
 
 app = FastAPI()

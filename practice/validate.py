@@ -6,9 +6,7 @@ class EmployeeBase(BaseModel):
     salary: float
 
 class EmployeeCreate(EmployeeBase):
-    name : str
-    department: str
-    salary : float
+    pass
 
 class EmployeeResponse(EmployeeBase):
     id: int
